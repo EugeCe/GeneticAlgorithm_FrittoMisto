@@ -97,7 +97,7 @@ public class Fitness implements FitnessFunction<Integer> {
                 return finalClientMIO.getMetrics();
             }).get();
 
-//            executorService.shutdownNow();
+            executorService.shutdownNow();
 
 //        metrics = clientMIO.getMetrics();
 
