@@ -105,7 +105,8 @@ public class Fitness implements FitnessFunction<Integer> {
             e.printStackTrace();
         }
 
-        pw.println(" __" + LocalTime.now() + "__  sono qui");
+        pw.println(" __oggetto _metrics_ "+ metrics);
+        pw.flush();
 
         if(metrics.isVictory())
             result = result + 400;
