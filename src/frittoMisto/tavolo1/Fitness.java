@@ -9,10 +9,12 @@ import it.unibo.ai.didattica.competition.tablut.server.Server;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.IntStream;
 
 public class Fitness implements FitnessFunction<Integer> {
@@ -63,10 +65,17 @@ public class Fitness implements FitnessFunction<Integer> {
 
             ExecutorService executorService = Executors.newCachedThreadPool();
 
-            //TODO. QUANTO CAZZO SONO POTENTE?
-            executorService.submit( () -> {
-                    Server.main(new String[0]);
-            });
+//            //TODO. QUANTO CAZZO SONO POTENTE?
+//            Future server = executorService.submit( () -> {
+//                    Server.main(new String[0]);
+//            });
+
+//            ProcessBuilder pb = new ProcessBuilder("java -jar C:\\Users\\ErChapo\\Desktop\\Server\\Tablut2020_Server.jar");
+//            ProcessBuilder pb = new ProcessBuilder("java -jar ./Tablut2020_Server.jar");
+            ProcessBuilder pb = new ProcessBuilder();
+            pb.command("cmd.exe", "/c", ".\\try.bat");
+            pb.directory(new File("C:/Users/ErChapo/Desktop/Server"));
+            pb.start();
 
             executorService.submit( () -> {
                 try {
@@ -96,6 +105,8 @@ public class Fitness implements FitnessFunction<Integer> {
             metrics = executorService.submit(() -> {
                 return finalClientMIO.getMetrics();
             }).get();
+
+//            server.cancel(true);
 
             executorService.shutdownNow();
 

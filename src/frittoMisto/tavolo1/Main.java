@@ -1,7 +1,5 @@
 package frittoMisto.tavolo1;
 
-import aima.core.search.local.GeneticAlgorithm;
-import aima.core.search.local.GeneticAlgorithmForNumbers;
 import aima.core.search.local.Individual;
 
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ import java.util.Random;
 public class Main {
 
     public static final int INDIVIDUAL_LENGTH = 7;
-    public static final int INITIAL_POPOLATION = 100;
+    public static final int INITIAL_POPOLATION = 10;
 
     public static final int KING_MANHATTAN = 0;
     public static final int KING_CAPTURED_SIDES = 1;
@@ -23,6 +21,7 @@ public class Main {
 
 
     public static final int WEIGHTS_BOUND = 500;
+    public static final int OFFSET = 200;
 
     public static void main(String[] args) {
 
@@ -110,15 +109,19 @@ public class Main {
     private static int dammiRandom(int i, Random rand) {
 
         int segno = rand.nextBoolean() ? -1 : 1;
-        int modulo = rand.nextInt(WEIGHTS_BOUND + 1);
-
-        int result = (segno*modulo);
+//        int modulo = rand.nextInt(WEIGHTS_BOUND + 1);
+//
+//        int result = (segno*modulo);
 
         //QUESTA PARTE PER RIMANERE NELL'INTORNO DEL PUNTO
-//        int modulo = rand.nextInt(i + 1);
-//        int result = i + (segno * modulo);
-        //Questo serve a fare in modo che result sia in [-BOUND,+BOUND]
-//        result = result < -WEIGHTS_BOUND ? 2*modulo + result : -2*modulo + result;
+        int modulo = rand.nextInt(OFFSET + 1);
+        int result = i + (segno * modulo);
+
+//        Questo serve a fare in modo che result sia in [-BOUND,+BOUND]
+        if(result < -WEIGHTS_BOUND)
+            result = 2*modulo + result;
+        if(result > WEIGHTS_BOUND)
+            result = -2*modulo + result;
 
         return result;
     }

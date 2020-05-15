@@ -63,6 +63,7 @@ public class GeneticConStampaSuFile<A> extends GeneticAlgorithm<A> {
         return bestIndividual;
     }
 
+
     @Override
     protected void finalize() throws Throwable {
         pw.flush();
