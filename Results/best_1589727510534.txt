@@ -1,0 +1,241 @@
+STARTS AT __16:58:30.618
+[1, -290, 225, -36, 352, 4954, -26]
+
+
+
+
+2020-05-17 20:24:51
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode):
+
+"pool-515-thread-1" #527 prio=5 os_prio=0 tid=0x000000001fa6f000 nid=0x3038 runnable [0x0000000043eae000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.net.SocketInputStream.read(SocketInputStream.java:224)
+	at java.io.DataInputStream.readInt(DataInputStream.java:387)
+	at it.unibo.ai.didattica.competition.tablut.util.StreamUtils.readString(StreamUtils.java:39)
+	at it.unibo.ai.didattica.competition.tablut.client.TablutClient.read(TablutClient.java:163)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.TablutFrittoMistoClient.faiIlClient(TablutFrittoMistoClient.java:107)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.TablutFrittoMistoClient.run(TablutFrittoMistoClient.java:91)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.TablutFrittoMistoClient.main(TablutFrittoMistoClient.java:71)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.ClientPerPesi.getMetrics(ClientPerPesi.java:17)
+	at frittoMisto.tavolo1.Fitness.lambda$apply$0(Fitness.java:119)
+	at frittoMisto.tavolo1.Fitness$$Lambda$5/1721931908.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+"Service Thread" #11 daemon prio=9 os_prio=0 tid=0x000000001eb3e000 nid=0x42ac runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C1 CompilerThread3" #10 daemon prio=9 os_prio=2 tid=0x000000001eafd800 nid=0xf70 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread2" #9 daemon prio=9 os_prio=2 tid=0x000000001eaf0800 nid=0x22c0 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread1" #8 daemon prio=9 os_prio=2 tid=0x000000001eae7000 nid=0x30d4 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #7 daemon prio=9 os_prio=2 tid=0x000000001eae6000 nid=0x3318 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Ctrl-Break" #6 daemon prio=5 os_prio=0 tid=0x000000001ea82800 nid=0xd00 runnable [0x000000001f3ff000]
+   java.lang.Thread.State: RUNNABLE
+	at com.intellij.rt.execution.application.AppMainV2.triggerControlBreak(Native Method)
+	at com.intellij.rt.execution.application.AppMainV2.access$000(AppMainV2.java:32)
+	at com.intellij.rt.execution.application.AppMainV2$1.run(AppMainV2.java:70)
+
+"Attach Listener" #5 daemon prio=5 os_prio=2 tid=0x000000001ea34000 nid=0x948 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=2 tid=0x000000001ea33000 nid=0x904 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Finalizer" #3 daemon prio=8 os_prio=1 tid=0x000000001ea21000 nid=0x38f8 in Object.wait() [0x000000001efff000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+	- locked <0x00000006c18164e0> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:165)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:216)
+
+"Reference Handler" #2 daemon prio=10 os_prio=2 tid=0x000000001ea20800 nid=0x2e34 in Object.wait() [0x000000001eeff000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Object.wait(Object.java:502)
+	at java.lang.ref.Reference.tryHandlePending(Reference.java:191)
+	- locked <0x00000006c180c000> (a java.lang.ref.Reference$Lock)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:153)
+
+"main" #1 prio=5 os_prio=0 tid=0x00000000030f3800 nid=0x3b70 waiting on condition [0x0000000002ebe000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00000006c334d450> (a java.util.concurrent.FutureTask)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.FutureTask.awaitDone(FutureTask.java:429)
+	at java.util.concurrent.FutureTask.get(FutureTask.java:191)
+	at frittoMisto.tavolo1.Fitness.apply(Fitness.java:120)
+	at aima.core.search.local.GeneticAlgorithm.randomSelection(GeneticAlgorithm.java:268)
+	at aima.core.search.local.GeneticAlgorithm.nextGeneration(GeneticAlgorithm.java:245)
+	at aima.core.search.local.GeneticAlgorithm.geneticAlgorithm(GeneticAlgorithm.java:139)
+	at aima.core.search.local.GeneticAlgorithm.geneticAlgorithm(GeneticAlgorithm.java:99)
+	at frittoMisto.tavolo1.Main.main(Main.java:52)
+
+"VM Thread" os_prio=2 tid=0x000000001cc29800 nid=0x8f0 runnable
+
+"GC task thread#0 (ParallelGC)" os_prio=0 tid=0x0000000003109000 nid=0x51c runnable
+
+"GC task thread#1 (ParallelGC)" os_prio=0 tid=0x000000000310a800 nid=0x3a48 runnable
+
+"GC task thread#2 (ParallelGC)" os_prio=0 tid=0x000000000310c800 nid=0xdc4 runnable
+
+"GC task thread#3 (ParallelGC)" os_prio=0 tid=0x000000000310e000 nid=0x4074 runnable
+
+"GC task thread#4 (ParallelGC)" os_prio=0 tid=0x0000000003111000 nid=0x3540 runnable
+
+"GC task thread#5 (ParallelGC)" os_prio=0 tid=0x0000000003112800 nid=0x2c78 runnable
+
+"GC task thread#6 (ParallelGC)" os_prio=0 tid=0x0000000003115800 nid=0x2808 runnable
+
+"GC task thread#7 (ParallelGC)" os_prio=0 tid=0x0000000003116800 nid=0x254c runnable
+
+"VM Periodic Task Thread" os_prio=2 tid=0x000000001ebb3000 nid=0x3e9c waiting on condition
+
+JNI global references: 275
+
+Heap
+ PSYoungGen      total 31744K, used 15388K [0x000000076b300000, 0x000000076dd80000, 0x00000007c0000000)
+  eden space 31232K, 48% used [0x000000076b300000,0x000000076c1df0b0,0x000000076d180000)
+  from space 512K, 31% used [0x000000076dd00000,0x000000076dd28000,0x000000076dd80000)
+  to   space 512K, 0% used [0x000000076dc80000,0x000000076dc80000,0x000000076dd00000)
+ ParOldGen       total 175104K, used 28037K [0x00000006c1800000, 0x00000006cc300000, 0x000000076b300000)
+  object space 175104K, 16% used [0x00000006c1800000,0x00000006c3361478,0x00000006cc300000)
+ Metaspace       used 8871K, capacity 9168K, committed 9216K, reserved 1056768K
+  class space    used 926K, capacity 996K, committed 1024K, reserved 1048576K
+
+2020-05-17 20:24:51
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode):
+
+"pool-515-thread-1" #527 prio=5 os_prio=0 tid=0x000000001fa6f000 nid=0x3038 runnable [0x0000000043eae000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.net.SocketInputStream.read(SocketInputStream.java:224)
+	at java.io.DataInputStream.readInt(DataInputStream.java:387)
+	at it.unibo.ai.didattica.competition.tablut.util.StreamUtils.readString(StreamUtils.java:39)
+	at it.unibo.ai.didattica.competition.tablut.client.TablutClient.read(TablutClient.java:163)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.TablutFrittoMistoClient.faiIlClient(TablutFrittoMistoClient.java:107)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.TablutFrittoMistoClient.run(TablutFrittoMistoClient.java:91)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.TablutFrittoMistoClient.main(TablutFrittoMistoClient.java:71)
+	at it.unibo.ai.didattica.competition.tablut.AI.Clients.ClientPerPesi.getMetrics(ClientPerPesi.java:17)
+	at frittoMisto.tavolo1.Fitness.lambda$apply$0(Fitness.java:119)
+	at frittoMisto.tavolo1.Fitness$$Lambda$5/1721931908.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+"Service Thread" #11 daemon prio=9 os_prio=0 tid=0x000000001eb3e000 nid=0x42ac runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C1 CompilerThread3" #10 daemon prio=9 os_prio=2 tid=0x000000001eafd800 nid=0xf70 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread2" #9 daemon prio=9 os_prio=2 tid=0x000000001eaf0800 nid=0x22c0 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread1" #8 daemon prio=9 os_prio=2 tid=0x000000001eae7000 nid=0x30d4 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #7 daemon prio=9 os_prio=2 tid=0x000000001eae6000 nid=0x3318 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Ctrl-Break" #6 daemon prio=5 os_prio=0 tid=0x000000001ea82800 nid=0xd00 runnable [0x000000001f3fe000]
+   java.lang.Thread.State: RUNNABLE
+	at java.util.IdentityHashMap$KeySet.iterator(IdentityHashMap.java:977)
+	at java.lang.ApplicationShutdownHooks.runHooks(ApplicationShutdownHooks.java:101)
+	at java.lang.ApplicationShutdownHooks$1.run(ApplicationShutdownHooks.java:46)
+	at java.lang.Shutdown.runHooks(Shutdown.java:123)
+	at java.lang.Shutdown.sequence(Shutdown.java:167)
+	at java.lang.Shutdown.exit(Shutdown.java:212)
+	- locked <0x00000006c18b2360> (a java.lang.Class for java.lang.Shutdown)
+	at java.lang.Runtime.exit(Runtime.java:109)
+	at java.lang.System.exit(System.java:971)
+	at com.intellij.rt.execution.application.AppMainV2$1.run(AppMainV2.java:74)
+
+"Attach Listener" #5 daemon prio=5 os_prio=2 tid=0x000000001ea34000 nid=0x948 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=2 tid=0x000000001ea33000 nid=0x904 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Finalizer" #3 daemon prio=8 os_prio=1 tid=0x000000001ea21000 nid=0x38f8 in Object.wait() [0x000000001efff000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+	- locked <0x00000006c18164e0> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:165)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:216)
+
+"Reference Handler" #2 daemon prio=10 os_prio=2 tid=0x000000001ea20800 nid=0x2e34 in Object.wait() [0x000000001eeff000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Object.wait(Object.java:502)
+	at java.lang.ref.Reference.tryHandlePending(Reference.java:191)
+	- locked <0x00000006c180c000> (a java.lang.ref.Reference$Lock)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:153)
+
+"main" #1 prio=5 os_prio=0 tid=0x00000000030f3800 nid=0x3b70 waiting on condition [0x0000000002ebe000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00000006c334d450> (a java.util.concurrent.FutureTask)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.FutureTask.awaitDone(FutureTask.java:429)
+	at java.util.concurrent.FutureTask.get(FutureTask.java:191)
+	at frittoMisto.tavolo1.Fitness.apply(Fitness.java:120)
+	at aima.core.search.local.GeneticAlgorithm.randomSelection(GeneticAlgorithm.java:268)
+	at aima.core.search.local.GeneticAlgorithm.nextGeneration(GeneticAlgorithm.java:245)
+	at aima.core.search.local.GeneticAlgorithm.geneticAlgorithm(GeneticAlgorithm.java:139)
+	at aima.core.search.local.GeneticAlgorithm.geneticAlgorithm(GeneticAlgorithm.java:99)
+	at frittoMisto.tavolo1.Main.main(Main.java:52)
+
+"VM Thread" os_prio=2 tid=0x000000001cc29800 nid=0x8f0 runnable
+
+"GC task thread#0 (ParallelGC)" os_prio=0 tid=0x0000000003109000 nid=0x51c runnable
+
+"GC task thread#1 (ParallelGC)" os_prio=0 tid=0x000000000310a800 nid=0x3a48 runnable
+
+"GC task thread#2 (ParallelGC)" os_prio=0 tid=0x000000000310c800 nid=0xdc4 runnable
+
+"GC task thread#3 (ParallelGC)" os_prio=0 tid=0x000000000310e000 nid=0x4074 runnable
+
+"GC task thread#4 (ParallelGC)" os_prio=0 tid=0x0000000003111000 nid=0x3540 runnable
+
+"GC task thread#5 (ParallelGC)" os_prio=0 tid=0x0000000003112800 nid=0x2c78 runnable
+
+"GC task thread#6 (ParallelGC)" os_prio=0 tid=0x0000000003115800 nid=0x2808 runnable
+
+"GC task thread#7 (ParallelGC)" os_prio=0 tid=0x0000000003116800 nid=0x254c runnable
+
+"VM Periodic Task Thread" os_prio=2 tid=0x000000001ebb3000 nid=0x3e9c waiting on condition
+
+JNI global references: 275
+
+Heap
+ PSYoungGen      total 31744K, used 15388K [0x000000076b300000, 0x000000076dd80000, 0x00000007c0000000)
+  eden space 31232K, 48% used [0x000000076b300000,0x000000076c1df0b0,0x000000076d180000)
+  from space 512K, 31% used [0x000000076dd00000,0x000000076dd28000,0x000000076dd80000)
+  to   space 512K, 0% used [0x000000076dc80000,0x000000076dc80000,0x000000076dd00000)
+ ParOldGen       total 175104K, used 28037K [0x00000006c1800000, 0x00000006cc300000, 0x000000076b300000)
+  object space 175104K, 16% used [0x00000006c1800000,0x00000006c3361478,0x00000006cc300000)
+ Metaspace       used 8878K, capacity 9168K, committed 9216K, reserved 1056768K
+  class space    used 927K, capacity 996K, committed 1024K, reserved 1048576K
+
+
+Process finished with exit code 1

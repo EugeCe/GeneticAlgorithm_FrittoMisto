@@ -2,6 +2,9 @@ package frittoMisto.tavolo1;
 
 import aima.core.search.local.Individual;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -46,7 +49,7 @@ public class Main {
         List<Individual<Integer>> popolazione = getPopolazione();
 
 
-        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), 1);
+        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), 10);
 
 //        GoalTestss goalTest = new GoalTestss();
 //        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), goalTest, 60000);
@@ -72,10 +75,50 @@ public class Main {
 
         List<Individual<Integer>> result = new ArrayList<>();
         for (int i = 0; i < INITIAL_POPOLATION; i++) {
-            result.add(getIndividualRandom());
+            if(i == 1) {
+
+                List<Integer> tmp = new ArrayList<>();
+                tmp.add(KING_MANHATTAN, 1);
+                tmp.add(KING_CAPTURED_SIDES,-290);
+                tmp.add(PAWS_DIFFERENCE, 225);
+                tmp.add(PAWS_WHITE, -36);
+                tmp.add(VICTORY_PATH,352);
+                tmp.add(VICTORY,4954);
+                tmp.add(PAWS_BLACK,-26);
+
+            }else {
+                result.add(getIndividualRandom());
+                result.add(getIndividualRandom_fromFile(i));
+            }
+//
         }
         return result;
 
+    }
+
+    private static Individual<Integer> getIndividualRandom_fromFile(int i) {
+
+        List<Integer> tmp = new ArrayList<>();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ErChapo\\IdeaProjects\\geneticTraining\\Results\\basePerPopolazione.txt"));
+
+            String linea = br.lines().skip(i).findFirst().get();
+
+            String[] pesi = linea.split("[\t,]");
+
+            tmp.add(KING_MANHATTAN, Integer.parseInt(pesi[KING_MANHATTAN].trim()));
+            tmp.add(KING_CAPTURED_SIDES,Integer.parseInt(pesi[KING_CAPTURED_SIDES].trim()));
+            tmp.add(PAWS_DIFFERENCE, Integer.parseInt(pesi[PAWS_DIFFERENCE].trim()));
+            tmp.add(PAWS_WHITE, Integer.parseInt(pesi[PAWS_WHITE].trim()));
+            tmp.add(VICTORY_PATH,Integer.parseInt(pesi[VICTORY_PATH].trim()));
+            tmp.add(VICTORY, Integer.parseInt(pesi[VICTORY].trim()));
+            tmp.add(PAWS_BLACK,Integer.parseInt(pesi[PAWS_BLACK].trim()));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new Individual<>(tmp);
     }
 
     private static Individual<Integer> getIndividualRandom() {
