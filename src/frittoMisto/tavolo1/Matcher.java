@@ -108,8 +108,8 @@ public class Matcher{
 //
 //            });
 
-                //CREO IL MIO CLIENT BIANCO
-                clientMIO = new ClientPerPesi("white",
+                //CREO IL MIO CLIENT
+                clientMIO = new ClientPerPesi("black", //"white",
                         weights.get(Main.KING_MANHATTAN),
                         weights.get(Main.KING_CAPTURED_SIDES),
                         weights.get(Main.PAWS_DIFFERENCE),
