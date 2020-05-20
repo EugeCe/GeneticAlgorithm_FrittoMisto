@@ -1,43 +1,53 @@
 package frittoMisto.tavolo1;
 
-import aima.core.search.local.FitnessFunction;
-import aima.core.search.local.Individual;
+
 import it.unibo.ai.didattica.competition.tablut.AI.Clients.ClientPerPesi;
 import it.unibo.ai.didattica.competition.tablut.AI.Clients.Utils.MetricsPartita_Genetic;
-import it.unibo.ai.didattica.competition.tablut.client.TablutAIBlackClient;
-import it.unibo.ai.didattica.competition.tablut.server.Server;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Fitness implements FitnessFunction<Integer> {
+public class Matcher{
 
-    private static final int NUMERO_TENTATIVI = 3;
+    private static final int NUMERO_TENTATIVI = 100;
     private PrintWriter pw = null;
     private long iterazione = 0;
+    private List<Integer> weights = null;
+    private String pesiString = null;
+    private List<MetricsPartita_Genetic> risultati;
 
-    public Fitness() {
+    public Matcher(List<Integer> weights) {
+
+        this.weights = weights;
 
         try {
-            File file = new File("log_Fitness.txt");
 
-            if (file.exists())
-                file.delete();
+            StringBuilder sb = new StringBuilder();
 
-            file.createNewFile();
+            for (int i = 0; i < weights.size(); i++) {
+                sb.append(weights.get(i) + "_");
+            }
+            pesiString = sb.toString();
 
-            pw = new PrintWriter(file);
-            pw.println("STARTS AT __" + LocalTime.now());
+            initFile("matchs_");
+
+            pw.println("STARTS AT __" + LocalDateTime.now());
+
+            pw.println(pesiString + System.lineSeparator());
+
             pw.flush();
+
 
 
         } catch (Exception e) {
@@ -45,21 +55,8 @@ public class Fitness implements FitnessFunction<Integer> {
         }
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        pw.flush();
-        pw.close();
-        super.finalize();
-    }
+    public void doMatch(int numeroMatchsToDo) {
 
-    @Override
-    public double apply(Individual<Integer> individual) {
-
-        System.out.println("ITERAZIONE __" + iterazione++ + "__**********************************************************************************************************");
-
-        List<Integer> weights = individual.getRepresentation();
-
-        double result = 0;
         ClientPerPesi clientMIO = null;
         MetricsPartita_Genetic metrics = null;
 
@@ -68,9 +65,12 @@ public class Fitness implements FitnessFunction<Integer> {
         Process server = null;
         Process opponent = null;
 
+        risultati = new ArrayList<>();
 
-        while (metrics == null && tentativi < NUMERO_TENTATIVI) {
 
+        int iterazioni = 0;
+
+        while (tentativi < NUMERO_TENTATIVI && iterazioni < numeroMatchsToDo) {
 
             try {
 
@@ -78,7 +78,6 @@ public class Fitness implements FitnessFunction<Integer> {
 
                 ExecutorService executorService = Executors.newCachedThreadPool();
 
-//              //TODO. QUANTO CAZZO SONO POTENTE?
 //              Future server = executorService.submit( () -> {
 //                    Server.main(new String[0]);
 //              });
@@ -88,11 +87,13 @@ public class Fitness implements FitnessFunction<Integer> {
                 ProcessBuilder pb = new ProcessBuilder();
                 pb.directory(new File("C:/Users/ErChapo/Desktop/Server"));
 
+                // server starts
                 pb.command("cmd.exe", "/c", ".\\run1.bat");
                 server = pb.start();
 
                 TimeUnit.MILLISECONDS.sleep(200);
 
+                //opponent starts
                 pb.command("cmd.exe", "/c", ".\\run2.bat");
                 opponent = pb.start();
 
@@ -124,14 +125,22 @@ public class Fitness implements FitnessFunction<Integer> {
                 //SE VUOI TI MANDO IL MIO IBAN COSI MI FAI UN IL BONIFICO
                 metrics = executorService.submit(() -> {
                     return finalClientMIO.getMetrics();
-                }).get(5, TimeUnit.MINUTES);
+                }).get(90, TimeUnit.MINUTES);
 
 //              server.cancel(true);
-
+//              metrics = clientMIO.getMetrics();
                 executorService.shutdownNow();
 
-//              metrics = clientMIO.getMetrics();
-                tentativi++;
+                if (metrics == null) {
+                    System.out.println("ERRORE NEL METRICS");
+                }else{
+                    risultati.add(metrics);
+                    pw.println(" __oggetto _metrics_ " + metrics);
+                    pw.flush();
+                }
+
+
+                iterazioni++;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -147,31 +156,57 @@ public class Fitness implements FitnessFunction<Integer> {
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
+                tentativi++;
             }
-        }
+        } //FINE PARTITE
 
-        if (metrics == null) {
-            System.out.println("ERRORE NEL METRICS");
-            return 0;
-        }
-
-//        System.out.println(" __oggetto _metrics_ "+ metrics);
-
-        pw.println(" __oggetto _metrics_ " + metrics);
         pw.flush();
-
-        if (metrics.isVictory())
-            result = result + 400;
-        if (metrics.isDraw())
-            result = result + 100;
-        if (!metrics.isDraw() && !metrics.isVictory())
-            result = -300;
-
-        result = metrics.getOpponentPawsEaten() - metrics.getMinePawsLosts() - (metrics.getTime() / 1000.0);
+        pw.close();
 
 
-        return result;
-        //TUTTI crescenti
-//        return IntStream.range(0, integers.size()).filter(index -> integers.get(index) == index).count();
+        initFile("result_");
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("partite:       " + risultati.size() + System.lineSeparator() + System.lineSeparator());
+
+        sb.append("vittorie:      " + risultati.stream().filter(MetricsPartita_Genetic::isVictory).count() + System.lineSeparator());
+        sb.append("sconfitte:     " + risultati.stream().filter( m -> !m.isVictory() && !m.isDraw()).count() + System.lineSeparator());
+        sb.append("pareggi:       " + risultati.stream().filter(MetricsPartita_Genetic::isDraw).count() + System.lineSeparator());
+
+        sb.append(System.lineSeparator());
+
+        sb.append("media pedoni avversari mangiati:      " + risultati.stream().mapToDouble(MetricsPartita_Genetic::getOpponentPawsEaten).average().orElse(Double.NaN) + System.lineSeparator());
+        sb.append("media pedoni amici persi:             " + risultati.stream().mapToDouble(MetricsPartita_Genetic::getMinePawsLosts).average().orElse(Double.NaN) + System.lineSeparator());
+
+        pw.print(sb.toString());
+        pw.flush();
+        pw.close();
+
+        System.out.println("RISULTATI DI " + pesiString);
+        System.out.print(sb.toString());
+    }
+
+    private void initFile(String suffix) {
+        try {
+
+            File file;
+            int i = 0;
+            do {
+                String nome = suffix +  (i == 0 ?  pesiString + ".txt" : pesiString + "(" + i + ").txt");
+                file = new File(nome);
+                i++;
+            }while (file.exists());
+
+            file.createNewFile();
+
+            pw = new PrintWriter(file);
+
+            pw.println(pesiString + System.lineSeparator());
+            pw.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

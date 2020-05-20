@@ -1,13 +1,9 @@
 package frittoMisto.tavolo1;
 
-import aima.core.search.local.Individual;
-
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Main {
 
@@ -30,29 +26,46 @@ public class Main {
 
         System.out.println("**********************************************************************************************************");
 
-        List<Integer> finiteAlphabet = new ArrayList<>();
-        for(int i= -WEIGHTS_BOUND; i<=WEIGHTS_BOUND; i++){
-            finiteAlphabet.add(i);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("C:\\Users\\ErChapo\\IdeaProjects\\genetic\\Results\\pesi.txt"));
+        } catch (Exception e) {
+            System.out.println("Errore apertura file");
         }
 
+        br.lines().forEach(linea -> {
 
-//        GeneticAlgorithm<Integer> algorithm = new GeneticAlgorithm<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
+            List<Integer> pesi = getIndividualRandom_fromString(linea);
 
-        GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
+            Matcher matcher = new Matcher(pesi);
 
-        //TODO? POTREBBE AVER SENSO LAVORARE SOLTANTO CON GLI INT
+            matcher.doMatch(10);
+
+        });
+
+    }
+
+    private static List<Integer> getIndividualRandom_fromString(String linea) {
+
+        List<Integer> tmp = new ArrayList<>();
 
 
-//        GeneticAlgorithmForNumbers algorithm = new GeneticAlgorithmForNumbers(INDIVIDUAL_LENGTH, -WEIGHTS_BOUND, WEIGHTS_BOUND, 0.3);
+        String[] pesi = linea.split("[\t,]");
+
+        tmp.add(KING_MANHATTAN, Integer.parseInt(pesi[KING_MANHATTAN].trim()));
+        tmp.add(KING_CAPTURED_SIDES, Integer.parseInt(pesi[KING_CAPTURED_SIDES].trim()));
+        tmp.add(PAWS_DIFFERENCE, Integer.parseInt(pesi[PAWS_DIFFERENCE].trim()));
+        tmp.add(PAWS_WHITE, Integer.parseInt(pesi[PAWS_WHITE].trim()));
+        tmp.add(VICTORY_PATH, Integer.parseInt(pesi[VICTORY_PATH].trim()));
+        tmp.add(VICTORY, Integer.parseInt(pesi[VICTORY].trim()));
+        tmp.add(PAWS_BLACK, Integer.parseInt(pesi[PAWS_BLACK].trim()));
+
+        return tmp;
+    }
+
+/*
 
 
-        List<Individual<Integer>> popolazione = getPopolazione();
-
-
-        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), 10);
-
-//        GoalTestss goalTest = new GoalTestss();
-//        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), goalTest, 60000);
 
 
         System.out.println("**********************************************************************************************************");
@@ -69,56 +82,29 @@ public class Main {
         System.out.println(algorithm.getMetrics().toString());
         System.out.println("**********************************************************************************************************" + System.lineSeparator());
 
-    }
 
-    private static List<Individual<Integer>> getPopolazione() {
+    private static List<Integer> getPesi() {
 
-        List<Individual<Integer>> result = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
         for (int i = 0; i < INITIAL_POPOLATION; i++) {
-            if(i == 1) {
+            if (i == 1) {
 
                 List<Integer> tmp = new ArrayList<>();
                 tmp.add(KING_MANHATTAN, 1);
-                tmp.add(KING_CAPTURED_SIDES,-290);
+                tmp.add(KING_CAPTURED_SIDES, -290);
                 tmp.add(PAWS_DIFFERENCE, 225);
                 tmp.add(PAWS_WHITE, -36);
-                tmp.add(VICTORY_PATH,352);
-                tmp.add(VICTORY,4954);
-                tmp.add(PAWS_BLACK,-26);
+                tmp.add(VICTORY_PATH, 352);
+                tmp.add(VICTORY, 4954);
+                tmp.add(PAWS_BLACK, -26);
 
-            }else {
+            } else {
                 result.add(getIndividualRandom());
-                result.add(getIndividualRandom_fromFile(i));
+                result.add(getIndividualRandom_fromString(i));
             }
 //
         }
         return result;
-
-    }
-
-    private static Individual<Integer> getIndividualRandom_fromFile(int i) {
-
-        List<Integer> tmp = new ArrayList<>();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ErChapo\\IdeaProjects\\geneticTraining\\Results\\basePerPopolazione.txt"));
-
-            String linea = br.lines().skip(i).findFirst().get();
-
-            String[] pesi = linea.split("[\t,]");
-
-            tmp.add(KING_MANHATTAN, Integer.parseInt(pesi[KING_MANHATTAN].trim()));
-            tmp.add(KING_CAPTURED_SIDES,Integer.parseInt(pesi[KING_CAPTURED_SIDES].trim()));
-            tmp.add(PAWS_DIFFERENCE, Integer.parseInt(pesi[PAWS_DIFFERENCE].trim()));
-            tmp.add(PAWS_WHITE, Integer.parseInt(pesi[PAWS_WHITE].trim()));
-            tmp.add(VICTORY_PATH,Integer.parseInt(pesi[VICTORY_PATH].trim()));
-            tmp.add(VICTORY, Integer.parseInt(pesi[VICTORY].trim()));
-            tmp.add(PAWS_BLACK,Integer.parseInt(pesi[PAWS_BLACK].trim()));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return new Individual<>(tmp);
     }
 
     private static Individual<Integer> getIndividualRandom() {
@@ -137,13 +123,12 @@ public class Main {
         Random rand = new Random(System.currentTimeMillis());
 
         tmp.add(KING_MANHATTAN, dammiRandom(50, rand));
-        tmp.add(KING_CAPTURED_SIDES,dammiRandom(-100, rand));
+        tmp.add(KING_CAPTURED_SIDES, dammiRandom(-100, rand));
         tmp.add(PAWS_DIFFERENCE, dammiRandom(100, rand));
         tmp.add(PAWS_WHITE, dammiRandom(177, rand));
         tmp.add(VICTORY_PATH, dammiRandom(300, rand));
         tmp.add(VICTORY, dammiRandom(5000, rand));
         tmp.add(PAWS_BLACK, dammiRandom(-100, rand));
-
 
 
         return new Individual<>(tmp);
@@ -161,11 +146,13 @@ public class Main {
         int result = i + (segno * modulo);
 
 //        Questo serve a fare in modo che result sia in [-BOUND,+BOUND]
-        if(result < -WEIGHTS_BOUND)
-            result = 2*modulo + result;
-        if(result > WEIGHTS_BOUND)
-            result = -2*modulo + result;
+        if (result < -WEIGHTS_BOUND)
+            result = 2 * modulo + result;
+        if (result > WEIGHTS_BOUND)
+            result = -2 * modulo + result;
 
         return result;
     }
+
+ */
 }
