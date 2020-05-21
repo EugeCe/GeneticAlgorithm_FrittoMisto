@@ -1,0 +1,15 @@
+-4_-147_-22_250_195_5000_-164_
+
+STARTS AT __2020-05-20T15:45:33.015841400
+-4_-147_-22_250_195_5000_-164_
+
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=2.0, minePawsLosts=2.0, time=259285}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=2.0, minePawsLosts=2.0, time=254528}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=true, victory=false, opponentPawsEaten=0.0, minePawsLosts=0.0, time=651731}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=2.0, minePawsLosts=2.0, time=244584}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=2.0, minePawsLosts=3.0, time=484877}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=3.0, minePawsLosts=1.0, time=358529}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=7.0, minePawsLosts=0.0, time=873068}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=2.0, minePawsLosts=3.0, time=258240}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=2.0, minePawsLosts=2.0, time=223196}
+ __oggetto _metrics_ MetricsPartita_Genetic{draw=false, victory=true, opponentPawsEaten=5.0, minePawsLosts=2.0, time=1101448}

@@ -1,0 +1,10 @@
+-4_-147_-22_250_195_5000_-164_
+
+partite:       10
+
+vittorie:      6
+sconfitte:     2
+pareggi:       2
+
+media pedoni avversari mangiati:      4.6
+media pedoni amici persi:             4.4

@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Matcher{
+public class DoMatches {
 
     private static final int NUMERO_TENTATIVI = 100;
     private PrintWriter pw = null;
@@ -27,7 +27,7 @@ public class Matcher{
     private String pesiString = null;
     private List<MetricsPartita_Genetic> risultati;
 
-    public Matcher(List<Integer> weights) {
+    public DoMatches(List<Integer> weights) {
 
         this.weights = weights;
 
@@ -42,7 +42,7 @@ public class Matcher{
 
             initFile("matchs_");
 
-            pw.println("STARTS AT __" + LocalDateTime.now());
+            pw.println("STARTS AT __ " + LocalDateTime.now());
 
             pw.println(pesiString + System.lineSeparator());
 
@@ -78,38 +78,39 @@ public class Matcher{
 
                 ExecutorService executorService = Executors.newCachedThreadPool();
 
+                //if you have the server as library:
 //              Future server = executorService.submit( () -> {
 //                    Server.main(new String[0]);
 //              });
 
-//              ProcessBuilder pb = new ProcessBuilder("java -jar C:\\Users\\ErChapo\\Desktop\\Server\\Tablut2020_Server.jar");
-//              ProcessBuilder pb = new ProcessBuilder("java -jar ./Tablut2020_Server.jar");
                 ProcessBuilder pb = new ProcessBuilder();
-                pb.directory(new File("C:/Users/ErChapo/Desktop/Server"));
+                //TODO
+                pb.directory(new File("C:/path/to/scripts/directory"));
 
-                // server starts
+                //TODO
+                //run1 -> "start java -jar ./server.jar" (Windows)
                 pb.command("cmd.exe", "/c", ".\\run1.bat");
                 server = pb.start();
 
                 TimeUnit.MILLISECONDS.sleep(200);
 
-                //opponent starts
+                //TODO
+                //run2 -> "start java -jar ./opponent.jar" (Windows)
                 pb.command("cmd.exe", "/c", ".\\run2.bat");
                 opponent = pb.start();
 
-
-//            executorService.submit( () -> {
+                //if you have the opponent as library:
+//              executorService.submit( () -> {
 //                try {
 //                    TablutAIBlackClient.main(new String[0]);
 //                } catch (Exception e) {
-//                    System.out.println("Nell'esecuzione di coolish");
+//                    System.out.println("Opponent exception");
 //                    e.printStackTrace();
 //                }
-//
 //            });
 
-                //CREO IL MIO CLIENT
-                clientMIO = new ClientPerPesi("black", //"white",
+                //Our client
+                clientMIO = new ClientPerPesi( "white", //"black",
                         weights.get(Main.KING_MANHATTAN),
                         weights.get(Main.KING_CAPTURED_SIDES),
                         weights.get(Main.PAWS_DIFFERENCE),
@@ -122,13 +123,10 @@ public class Matcher{
                 ClientPerPesi finalClientMIO = clientMIO;
 
 
-                //SE VUOI TI MANDO IL MIO IBAN COSI MI FAI UN IL BONIFICO
                 metrics = executorService.submit(() -> {
                     return finalClientMIO.getMetrics();
                 }).get(90, TimeUnit.MINUTES);
 
-//              server.cancel(true);
-//              metrics = clientMIO.getMetrics();
                 executorService.shutdownNow();
 
                 if (metrics == null) {
@@ -138,7 +136,6 @@ public class Matcher{
                     pw.println(" __oggetto _metrics_ " + metrics);
                     pw.flush();
                 }
-
 
                 iterazioni++;
 
