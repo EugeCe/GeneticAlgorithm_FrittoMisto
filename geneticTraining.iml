@@ -7,8 +7,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="aima-core-3.0.0" level="project" />
-    <orderEntry type="library" name="Tablut2020_FrittoMisto" level="project" />
-    <orderEntry type="library" name="ColishTablut2019" level="project" />
   </component>
 </module>

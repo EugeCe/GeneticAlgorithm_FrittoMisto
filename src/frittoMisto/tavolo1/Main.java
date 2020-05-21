@@ -31,27 +31,23 @@ public class Main {
         System.out.println("**********************************************************************************************************");
 
         List<Integer> finiteAlphabet = new ArrayList<>();
-        for(int i= -WEIGHTS_BOUND; i<=WEIGHTS_BOUND; i++){
+        for (int i = -WEIGHTS_BOUND; i <= WEIGHTS_BOUND; i++) {
             finiteAlphabet.add(i);
         }
 
 
-//        GeneticAlgorithm<Integer> algorithm = new GeneticAlgorithm<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
-
+//      GeneticAlgorithm<Integer> algorithm = new GeneticAlgorithm<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
         GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
 
-        //TODO? POTREBBE AVER SENSO LAVORARE SOLTANTO CON GLI INT
-
-
-//        GeneticAlgorithmForNumbers algorithm = new GeneticAlgorithmForNumbers(INDIVIDUAL_LENGTH, -WEIGHTS_BOUND, WEIGHTS_BOUND, 0.3);
-
+        //For doubles. In this case is not necessary to have the precision of doubles
+//      GeneticAlgorithmForNumbers algorithm = new GeneticAlgorithmForNumbers(INDIVIDUAL_LENGTH, -WEIGHTS_BOUND, WEIGHTS_BOUND, 0.3);
 
         List<Individual<Integer>> popolazione = getPopolazione();
 
-
         Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), 10);
 
-//        GoalTestss goalTest = new GoalTestss();
+        //if you have a specific goal
+//        GoalTest goalTest = new GoalTest();
 //        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), goalTest, 60000);
 
 
@@ -75,45 +71,34 @@ public class Main {
 
         List<Individual<Integer>> result = new ArrayList<>();
         for (int i = 0; i < INITIAL_POPOLATION; i++) {
-            if(i == 1) {
+            //Create population pseudo-randomly
+            result.add(getIndividualRandom());
 
-                List<Integer> tmp = new ArrayList<>();
-                tmp.add(KING_MANHATTAN, 1);
-                tmp.add(KING_CAPTURED_SIDES,-290);
-                tmp.add(PAWS_DIFFERENCE, 225);
-                tmp.add(PAWS_WHITE, -36);
-                tmp.add(VICTORY_PATH,352);
-                tmp.add(VICTORY,4954);
-                tmp.add(PAWS_BLACK,-26);
-
-            }else {
-                result.add(getIndividualRandom());
-                result.add(getIndividualRandom_fromFile(i));
-            }
-//
+            //Create population by retrieving it from file
+            //result.add(getIndividual_fromFile(i));
         }
         return result;
-
     }
 
-    private static Individual<Integer> getIndividualRandom_fromFile(int i) {
+    private static Individual<Integer> getIndividual_fromFile(int i) {
 
         List<Integer> tmp = new ArrayList<>();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ErChapo\\IdeaProjects\\geneticTraining\\Results\\basePerPopolazione.txt"));
+            //TODO
+            BufferedReader br = new BufferedReader(new FileReader("C:\\Path\\to\\initial\\population\\file\\basePerPopolazione.txt"));
 
             String linea = br.lines().skip(i).findFirst().get();
 
             String[] pesi = linea.split("[\t,]");
 
             tmp.add(KING_MANHATTAN, Integer.parseInt(pesi[KING_MANHATTAN].trim()));
-            tmp.add(KING_CAPTURED_SIDES,Integer.parseInt(pesi[KING_CAPTURED_SIDES].trim()));
+            tmp.add(KING_CAPTURED_SIDES, Integer.parseInt(pesi[KING_CAPTURED_SIDES].trim()));
             tmp.add(PAWS_DIFFERENCE, Integer.parseInt(pesi[PAWS_DIFFERENCE].trim()));
             tmp.add(PAWS_WHITE, Integer.parseInt(pesi[PAWS_WHITE].trim()));
-            tmp.add(VICTORY_PATH,Integer.parseInt(pesi[VICTORY_PATH].trim()));
+            tmp.add(VICTORY_PATH, Integer.parseInt(pesi[VICTORY_PATH].trim()));
             tmp.add(VICTORY, Integer.parseInt(pesi[VICTORY].trim()));
-            tmp.add(PAWS_BLACK,Integer.parseInt(pesi[PAWS_BLACK].trim()));
+            tmp.add(PAWS_BLACK, Integer.parseInt(pesi[PAWS_BLACK].trim()));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -123,6 +108,7 @@ public class Main {
 
     private static Individual<Integer> getIndividualRandom() {
 
+        //Initial weights
 //        weight = new double[7];
 //        weight[KING_MANHATTAN] = 50;  //manhattan
 //        weight[KING_CAPTURED_SIDES] = -100;  //king capture
@@ -137,13 +123,12 @@ public class Main {
         Random rand = new Random(System.currentTimeMillis());
 
         tmp.add(KING_MANHATTAN, dammiRandom(50, rand));
-        tmp.add(KING_CAPTURED_SIDES,dammiRandom(-100, rand));
+        tmp.add(KING_CAPTURED_SIDES, dammiRandom(-100, rand));
         tmp.add(PAWS_DIFFERENCE, dammiRandom(100, rand));
         tmp.add(PAWS_WHITE, dammiRandom(177, rand));
         tmp.add(VICTORY_PATH, dammiRandom(300, rand));
         tmp.add(VICTORY, dammiRandom(5000, rand));
         tmp.add(PAWS_BLACK, dammiRandom(-100, rand));
-
 
 
         return new Individual<>(tmp);
@@ -152,19 +137,19 @@ public class Main {
     private static int dammiRandom(int i, Random rand) {
 
         int segno = rand.nextBoolean() ? -1 : 1;
+
 //        int modulo = rand.nextInt(WEIGHTS_BOUND + 1);
-//
 //        int result = (segno*modulo);
 
-        //QUESTA PARTE PER RIMANERE NELL'INTORNO DEL PUNTO
+        //This is necessary to create a pseudo-random value that is neighborhood of i.
         int modulo = rand.nextInt(OFFSET + 1);
         int result = i + (segno * modulo);
 
-//        Questo serve a fare in modo che result sia in [-BOUND,+BOUND]
-        if(result < -WEIGHTS_BOUND)
-            result = 2*modulo + result;
-        if(result > WEIGHTS_BOUND)
-            result = -2*modulo + result;
+//       result in [-BOUND,+BOUND]
+        if (result < -WEIGHTS_BOUND)
+            result = 2 * modulo + result;
+        if (result > WEIGHTS_BOUND)
+            result = -2 * modulo + result;
 
         return result;
     }

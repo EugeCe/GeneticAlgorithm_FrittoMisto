@@ -4,20 +4,14 @@ import aima.core.search.local.FitnessFunction;
 import aima.core.search.local.Individual;
 import it.unibo.ai.didattica.competition.tablut.AI.Clients.ClientPerPesi;
 import it.unibo.ai.didattica.competition.tablut.AI.Clients.Utils.MetricsPartita_Genetic;
-import it.unibo.ai.didattica.competition.tablut.client.TablutAIBlackClient;
-import it.unibo.ai.didattica.competition.tablut.server.Server;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 
 public class Fitness implements FitnessFunction<Integer> {
 
@@ -28,7 +22,7 @@ public class Fitness implements FitnessFunction<Integer> {
     public Fitness() {
 
         try {
-            File file = new File("log_Fitness.txt");
+            File file = new File("log_Fitness"+System.currentTimeMillis()+".txt");
 
             if (file.exists())
                 file.delete();
@@ -46,16 +40,9 @@ public class Fitness implements FitnessFunction<Integer> {
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        pw.flush();
-        pw.close();
-        super.finalize();
-    }
-
-    @Override
     public double apply(Individual<Integer> individual) {
 
-        System.out.println("ITERAZIONE __" + iterazione++ + "__**********************************************************************************************************");
+        System.out.println("mathc __" + iterazione++ + "__**********************************************************************************************************");
 
         List<Integer> weights = individual.getRepresentation();
 
@@ -78,36 +65,38 @@ public class Fitness implements FitnessFunction<Integer> {
 
                 ExecutorService executorService = Executors.newCachedThreadPool();
 
-//              //TODO. QUANTO CAZZO SONO POTENTE?
+                //if you have server as library:
 //              Future server = executorService.submit( () -> {
 //                    Server.main(new String[0]);
 //              });
 
-//              ProcessBuilder pb = new ProcessBuilder("java -jar C:\\Users\\ErChapo\\Desktop\\Server\\Tablut2020_Server.jar");
-//              ProcessBuilder pb = new ProcessBuilder("java -jar ./Tablut2020_Server.jar");
                 ProcessBuilder pb = new ProcessBuilder();
-                pb.directory(new File("C:/Users/ErChapo/Desktop/Server"));
+                //TODO
+                pb.directory(new File("C:/Path/to/scripts/directory"));
 
+                //TODO
+                //run1 -> "start java -jar ./server.jar"
                 pb.command("cmd.exe", "/c", ".\\run1.bat");
                 server = pb.start();
 
                 TimeUnit.MILLISECONDS.sleep(200);
 
+                //TODO
+                //run2 -> "start java -jar ./opponent.jar"
                 pb.command("cmd.exe", "/c", ".\\run2.bat");
                 opponent = pb.start();
 
-
-//            executorService.submit( () -> {
+                //if you have opponent as library:
+//              executorService.submit( () -> {
 //                try {
 //                    TablutAIBlackClient.main(new String[0]);
 //                } catch (Exception e) {
-//                    System.out.println("Nell'esecuzione di coolish");
+//                    System.out.println("Opponent exception");
 //                    e.printStackTrace();
 //                }
-//
 //            });
 
-                //CREO IL MIO CLIENT BIANCO
+                //our client
                 clientMIO = new ClientPerPesi("white",
                         weights.get(Main.KING_MANHATTAN),
                         weights.get(Main.KING_CAPTURED_SIDES),
@@ -120,8 +109,6 @@ public class Fitness implements FitnessFunction<Integer> {
 
                 ClientPerPesi finalClientMIO = clientMIO;
 
-
-                //SE VUOI TI MANDO IL MIO IBAN COSI MI FAI UN IL BONIFICO
                 metrics = executorService.submit(() -> {
                     return finalClientMIO.getMetrics();
                 }).get(5, TimeUnit.MINUTES);
@@ -130,8 +117,6 @@ public class Fitness implements FitnessFunction<Integer> {
 
                 executorService.shutdownNow();
 
-//              metrics = clientMIO.getMetrics();
-                tentativi++;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -147,6 +132,7 @@ public class Fitness implements FitnessFunction<Integer> {
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
+                tentativi++;
             }
         }
 
@@ -171,7 +157,5 @@ public class Fitness implements FitnessFunction<Integer> {
 
 
         return result;
-        //TUTTI crescenti
-//        return IntStream.range(0, integers.size()).filter(index -> integers.get(index) == index).count();
     }
 }

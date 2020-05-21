@@ -41,7 +41,7 @@ public class GeneticConStampaSuFile<A> extends GeneticAlgorithm<A> {
         }
     }
 
-    //INSERITO SOLO PER POTER STAMPARE SU FILE OGNI TANTO
+    //For every population the best indivisual is written on file
     @Override
     public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn) {
         Individual<A> bestIndividual = null;
@@ -61,13 +61,5 @@ public class GeneticConStampaSuFile<A> extends GeneticAlgorithm<A> {
         pw.flush();
 
         return bestIndividual;
-    }
-
-
-    @Override
-    protected void finalize() throws Throwable {
-        pw.flush();
-        pw.close();
-        super.finalize();
     }
 }
