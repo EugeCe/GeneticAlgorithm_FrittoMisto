@@ -42,7 +42,7 @@ public class Fitness implements FitnessFunction<Integer> {
     @Override
     public double apply(Individual<Integer> individual) {
 
-        System.out.println("mathc __" + iterazione++ + "__**********************************************************************************************************");
+        System.out.println("match __" + iterazione++ + "__**********************************************************************************************************");
 
         List<Integer> weights = individual.getRepresentation();
 
@@ -72,7 +72,7 @@ public class Fitness implements FitnessFunction<Integer> {
 
                 ProcessBuilder pb = new ProcessBuilder();
                 //TODO
-                pb.directory(new File("C:/Path/to/scripts/directory"));
+                pb.directory(new File("C:/path/to/bin/directory/Server"));
 
                 //TODO
                 //run1 -> "start java -jar ./server.jar"
@@ -103,7 +103,8 @@ public class Fitness implements FitnessFunction<Integer> {
                         weights.get(Main.PAWS_DIFFERENCE),
                         weights.get(Main.PAWS_WHITE),
                         weights.get(Main.VICTORY_PATH),
-                        weights.get(Main.VICTORY),
+//                        weights.get(Main.VICTORY),
+                        5000,
                         weights.get(Main.PAWS_BLACK)
                 );
 
@@ -143,15 +144,15 @@ public class Fitness implements FitnessFunction<Integer> {
 
 //        System.out.println(" __oggetto _metrics_ "+ metrics);
 
-        pw.println(" __oggetto _metrics_ " + metrics);
+        pw.println("_metrics_ " + metrics + " con pesi: " +  individual.getRepresentation());
         pw.flush();
 
         if (metrics.isVictory())
-            result = result + 400;
+            result = result + 600;
         if (metrics.isDraw())
             result = result + 100;
         if (!metrics.isDraw() && !metrics.isVictory())
-            result = -300;
+            result = -600;
 
         result = metrics.getOpponentPawsEaten() - metrics.getMinePawsLosts() - (metrics.getTime() / 1000.0);
 

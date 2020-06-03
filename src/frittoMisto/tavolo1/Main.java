@@ -12,7 +12,7 @@ import java.util.Random;
 public class Main {
 
     public static final int INDIVIDUAL_LENGTH = 7;
-    public static final int INITIAL_POPOLATION = 10;
+    public static final int INITIAL_POPOLATION = 12;
 
     public static final int KING_MANHATTAN = 0;
     public static final int KING_CAPTURED_SIDES = 1;
@@ -37,14 +37,14 @@ public class Main {
 
 
 //      GeneticAlgorithm<Integer> algorithm = new GeneticAlgorithm<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
-        GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
+        GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.6);
 
         //For doubles. In this case is not necessary to have the precision of doubles
 //      GeneticAlgorithmForNumbers algorithm = new GeneticAlgorithmForNumbers(INDIVIDUAL_LENGTH, -WEIGHTS_BOUND, WEIGHTS_BOUND, 0.3);
 
         List<Individual<Integer>> popolazione = getPopolazione();
 
-        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), 10);
+        Individual<Integer> result = algorithm.geneticAlgorithm(popolazione, new Fitness(), 150);
 
         //if you have a specific goal
 //        GoalTest goalTest = new GoalTest();
@@ -72,10 +72,10 @@ public class Main {
         List<Individual<Integer>> result = new ArrayList<>();
         for (int i = 0; i < INITIAL_POPOLATION; i++) {
             //Create population pseudo-randomly
-            result.add(getIndividualRandom());
+//            result.add(getIndividualRandom());
 
             //Create population by retrieving it from file
-            //result.add(getIndividual_fromFile(i));
+            result.add(getIndividual_fromFile(i));
         }
         return result;
     }
@@ -86,7 +86,7 @@ public class Main {
 
         try {
             //TODO
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Path\\to\\initial\\population\\file\\basePerPopolazione.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("C:\\path\\to\\geneticTraining\\basePerPopolazione.txt"));
 
             String linea = br.lines().skip(i).findFirst().get();
 
