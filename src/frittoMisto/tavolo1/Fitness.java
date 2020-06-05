@@ -22,7 +22,7 @@ public class Fitness implements FitnessFunction<Integer> {
     public Fitness() {
 
         try {
-            File file = new File("log_Fitness"+System.currentTimeMillis()+".txt");
+            File file = new File("log_Fitness" + System.currentTimeMillis() + ".txt");
 
             if (file.exists())
                 file.delete();
@@ -121,10 +121,10 @@ public class Fitness implements FitnessFunction<Integer> {
             } catch (Exception e) {
                 e.printStackTrace();
                 metrics = null;
-                if(server != null){
+                if (server != null) {
                     server.destroyForcibly();
                 }
-                if(opponent != null){
+                if (opponent != null) {
                     opponent.destroyForcibly();
                 }
                 try {
@@ -147,13 +147,13 @@ public class Fitness implements FitnessFunction<Integer> {
         pw.flush();
 
         if (metrics.isVictory())
-            result = result + 400;
+            result = result + 600;
         if (metrics.isDraw())
             result = result + 100;
         if (!metrics.isDraw() && !metrics.isVictory())
-            result = -300;
+            result = result - 300;
 
-        result = metrics.getOpponentPawsEaten() - metrics.getMinePawsLosts() - (metrics.getTime() / 1000.0);
+        result = result + 10 * metrics.getOpponentPawsEaten() - 10 * metrics.getMinePawsLosts() - 3 * (metrics.getTime() / 1000.0);
 
 
         return result;
