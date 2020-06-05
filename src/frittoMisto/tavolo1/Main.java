@@ -37,7 +37,7 @@ public class Main {
 
 
 //      GeneticAlgorithm<Integer> algorithm = new GeneticAlgorithm<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
-        GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.6);
+        GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.9);
 
         //For doubles. In this case is not necessary to have the precision of doubles
 //      GeneticAlgorithmForNumbers algorithm = new GeneticAlgorithmForNumbers(INDIVIDUAL_LENGTH, -WEIGHTS_BOUND, WEIGHTS_BOUND, 0.3);
@@ -86,7 +86,7 @@ public class Main {
 
         try {
             //TODO
-            BufferedReader br = new BufferedReader(new FileReader("C:\\path\\to\\geneticTraining\\basePerPopolazione.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("C:\\basePerPopolazione.txt"));
 
             String linea = br.lines().skip(i).findFirst().get();
 

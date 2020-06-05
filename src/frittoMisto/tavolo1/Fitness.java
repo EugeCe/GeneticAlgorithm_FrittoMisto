@@ -72,7 +72,7 @@ public class Fitness implements FitnessFunction<Integer> {
 
                 ProcessBuilder pb = new ProcessBuilder();
                 //TODO
-                pb.directory(new File("C:/path/to/bin/directory/Server"));
+                pb.directory(new File("C:/path/to/bin/directory"));
 
                 //TODO
                 //run1 -> "start java -jar ./server.jar"
@@ -154,7 +154,7 @@ public class Fitness implements FitnessFunction<Integer> {
         if (!metrics.isDraw() && !metrics.isVictory())
             result = -600;
 
-        result = metrics.getOpponentPawsEaten() - metrics.getMinePawsLosts() - (metrics.getTime() / 1000.0);
+        result = result + metrics.getOpponentPawsEaten() - metrics.getMinePawsLosts() - (metrics.getTime() / 1000.0);
 
 
         return result;
