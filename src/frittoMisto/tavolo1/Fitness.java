@@ -152,9 +152,9 @@ public class Fitness implements FitnessFunction<Integer> {
         if (metrics.isDraw())
             result = result + 100;
         if (!metrics.isDraw() && !metrics.isVictory())
-            result = -600;
+            result = result - 600;
 
-        result = result + 10*metrics.getOpponentPawsEaten() - 10*metrics.getMinePawsLosts() - (metrics.getTime() / 1000.0);
+        result = result + 10*metrics.getOpponentPawsEaten() - 25*metrics.getMinePawsLosts() - 7*(metrics.getTime() / 1000.0);
 
 
         return result;

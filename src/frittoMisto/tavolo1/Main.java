@@ -37,7 +37,7 @@ public class Main {
 
 
 //      GeneticAlgorithm<Integer> algorithm = new GeneticAlgorithm<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.3);
-        GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.9);
+        GeneticConStampaSuFile<Integer> algorithm = new GeneticConStampaSuFile<>(INDIVIDUAL_LENGTH, finiteAlphabet, 0.5);
 
         //For doubles. In this case is not necessary to have the precision of doubles
 //      GeneticAlgorithmForNumbers algorithm = new GeneticAlgorithmForNumbers(INDIVIDUAL_LENGTH, -WEIGHTS_BOUND, WEIGHTS_BOUND, 0.3);
@@ -72,10 +72,10 @@ public class Main {
         List<Individual<Integer>> result = new ArrayList<>();
         for (int i = 0; i < INITIAL_POPOLATION; i++) {
             //Create population pseudo-randomly
-//            result.add(getIndividualRandom());
+            result.add(getIndividualRandom(i));
 
             //Create population by retrieving it from file
-            result.add(getIndividual_fromFile(i));
+//            result.add(getIndividual_fromFile(i));
         }
         return result;
     }
@@ -106,7 +106,7 @@ public class Main {
         return new Individual<>(tmp);
     }
 
-    private static Individual<Integer> getIndividualRandom() {
+    private static Individual<Integer> getIndividualRandom(int i) {
 
         //Initial weights
 //        weight = new double[7];
@@ -120,7 +120,7 @@ public class Main {
 
 
         List<Integer> tmp = new ArrayList<>();
-        Random rand = new Random(System.currentTimeMillis());
+        Random rand = new Random(i);
 
         tmp.add(KING_MANHATTAN, dammiRandom(50, rand));
         tmp.add(KING_CAPTURED_SIDES, dammiRandom(-100, rand));
